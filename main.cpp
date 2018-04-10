@@ -29,7 +29,7 @@ int main(void) {
 
 					int m = i - (k + 1) / 2;
 					int n = j - (k + 1) / 2;
-					double f = (double)(exp(- (pow(n, 2) + pow(m, 2)) / (2 * z))) / (2 * M_PI * z);
+					double f = 1 / (2 * M_PI * pow(z, 2)) * (double)(exp(-(pow(n, 2) + pow(m, 2)) / (2 * pow(z, 2))));
 
 					int s = y - i;
 					int t = x - j;
@@ -56,11 +56,11 @@ int main(void) {
 		}
 	}
 
-	GaussianBlur(img, dst2, Size(3, 3), 1, 0);
+	GaussianBlur(img, dst2, Size(3, 3), 1.5, 0);
 
 	imshow("View", img);
 	imshow("Filter", dst);
-	imshow("Filter2", dst);
+	imshow("Filter2", dst2);
 	imwrite("Gaussian_Filter.jpg", dst);
 	waitKey();
 
