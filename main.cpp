@@ -15,21 +15,22 @@ int main(void) {
 	double z;
 	std::cout << "配列の数を入力してください" << std::endl;
 	std::cin >> k;
-	std::cout << "分散の値を入力してください" << std::endl;
+	std::cout << "標準偏差の値を入力してください" << std::endl;
 	std::cin >> z;
 
 	Mat dst = Mat::zeros(img.rows, img.cols, CV_8UC3);
-	Mat dst2 = Mat::zeros(img.rows, img.cols, CV_8UC3);
 
 	for (int y = 0; y < img.rows; y++) {
 		for (int x = 0; x < img.cols; x++) {
 			double b = 0, g = 0, r = 0;
+			double sum = 0.0;
 			for (int i = (k - 1) / 2; i < ((k - 1) / 2) + k; i++) {
 				for (int j = (k - 1) / 2; j < ((k - 1) / 2) + k; j++) {
 
 					int m = i - (k + 1) / 2;
 					int n = j - (k + 1) / 2;
-					double f = 1 / (2 * M_PI * pow(z, 2)) * (double)(exp(-(pow(n, 2) + pow(m, 2)) / (2 * pow(z, 2))));
+					double f = (exp(-(n * n + m * m) / (2 * z * z))) / (2 * M_PI * z * z);
+					sum += f;
 
 					int s = y - i;
 					int t = x - j;
@@ -52,15 +53,15 @@ int main(void) {
 					r += tmp[2] * f;
 				}
 			}
+			b = b / sum;
+			g = g / sum;
+			r = r / sum;
 			dst.at<Vec3b>(y, x) = Vec3b(b, g, r);
 		}
 	}
 
-	GaussianBlur(img, dst2, Size(3, 3), 1.5, 0);
-
 	imshow("View", img);
 	imshow("Filter", dst);
-	imshow("Filter2", dst2);
 	imwrite("Gaussian_Filter.jpg", dst);
 	waitKey();
 
