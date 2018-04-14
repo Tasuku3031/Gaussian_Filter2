@@ -32,8 +32,8 @@ int main(void) {
 					double f = (exp(-(n * n + m * m) / (2 * z * z))) / (2 * M_PI * z * z);
 					sum += f;
 
-					int s = y - i;
-					int t = x - j;
+					int s = y + (i - (k + 1) / 2);
+					int t = x + (j - (k + 1) / 2);
 					if (s < 0) {
 						s = 0;
 					}
@@ -62,7 +62,7 @@ int main(void) {
 
 	imshow("View", img);
 	imshow("Filter", dst);
-	imwrite("Gaussian_Filter.jpg", dst);
+	//imwrite("Gaussian_Filter.jpg", dst);
 	waitKey();
 
 	return 0;
